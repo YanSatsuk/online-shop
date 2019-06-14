@@ -9,13 +9,14 @@ class MyApp extends JetApp {
             version: VERSION,
             router: BUILD_AS_MODULE ? EmptyRouter : HashRouter,
             debug: !PRODUCTION,
-            start: "/top/main.main",
+            start: "/top/main.main/main.products-table",
             routes: {
-                "/top/main": "/top/main.main",
+                "/top/main": "/top/main.main/main.products-table",
                 "/top/login": "/top/auth.auth/auth.login",
                 "/top/register": "/top/auth.auth/auth.signup",
                 "/top/reset": "/top/auth.auth/auth.reset",
-                "/top/bag": "/top/bag.bag",
+                "/top/bag": "/top/main.main/bag.bag",
+                "/top/order": "/top/main.main/bag.order-form",
             }
         };
 

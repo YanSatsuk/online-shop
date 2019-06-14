@@ -42,35 +42,48 @@ export default class BagTable extends JetView {
 				id: "delete",
 				header: "",
 				width: 60,
-				template: "<img src='/svg/trash-can.svg' class=''/>",
+				template: "<img src='/svg/trash-can.svg' class='img-padding'/>",
 				type: "clean"
 			},
 		];
 	}
 
-	config() {
-	    this.totalSum = 0;
-	    let self = this;
-		return {
-		    localId: "bagTable",
-			view: "datatable",
+    config() {
+        this.totalSum = 0;
+        let self = this;
+        return {
+            id: "bagTable",
+            view: "datatable",
             footer: true,
             math: true,
-			columns: this.getColumns(),
-			data: [
-				{
-					name: "Lenovo K5",
-					amount: 2,
-					price: 380,
-				},
-				{
-					name: "Lenovo S920",
-					amount: 1,
-					price: 370,
-				},
-			],
-            on: {
-            }
-		};
-	}
+            columns: this.getColumns(),
+            data: [
+                {
+                    name: "Lenovo K5",
+                    amount: 2,
+                    price: 380,
+                },
+                {
+                    name: "Lenovo S920",
+                    amount: 1,
+                    price: 370,
+                },
+            ],
+            onClick: {
+                "img-padding": function(e, col) {
+                    self.decreaseAmount(col, this);
+                }
+            },
+        };
+    }
+
+    decreaseAmount(col, self) {
+        let item = self.getItem(col.row);
+        if (item.amount > 1) {
+            item.amount--;
+            self.updateItem(col.row, item);
+        } else {
+            self.remove(col.row);
+        }
+    }
 }

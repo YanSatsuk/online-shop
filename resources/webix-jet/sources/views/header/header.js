@@ -8,7 +8,7 @@ export default class HeaderView extends JetView {
 			width: 300,
 			css: "horizontal-center",
 			click: () => {
-				this.app.show("/top/main.main");
+				this.app.show("/top/main.main/main.products-table");
 			}
 		};
 	}

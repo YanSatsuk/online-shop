@@ -42,7 +42,7 @@ export default class ProductsTable extends JetView {
 				id: "buy",
 				header: "Buy",
 				width: 60,
-				template: "<img src='/svg/cart-outline.svg' class='cart-padding'/>",
+				template: "<img src='/svg/cart-outline.svg' class='img-padding'/>",
 				type: "clean"
 			},
 		];
@@ -93,7 +93,7 @@ export default class ProductsTable extends JetView {
 				"webix_inp_counter_next": function(e, col) {
 					self.upAmount(col, this);
 				},
-				"cart-padding": function(e, col) {
+				"img-padding": function(e, col) {
 					self.addToBag(col, this);
 				}
 			},
