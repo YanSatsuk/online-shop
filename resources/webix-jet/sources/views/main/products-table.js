@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 import productWindow from "../window/product";
+import data from "../../models/product";
 
 export default class ProductsTable extends JetView {
 	getColumns() {
@@ -10,7 +11,7 @@ export default class ProductsTable extends JetView {
 				width: 150,
 			},
 			{
-				id: "name",
+				id: "model",
 				header: [
 					"Name",
 					{
@@ -54,38 +55,13 @@ export default class ProductsTable extends JetView {
 			view: "datatable",
 			type: {
 				amountCounter: (obj) => {
+				    let amount = obj.amount ? obj.amount : 1;
 					return `<button type="button" class="webix_inp_counter_prev" tabindex="-1" aria-label="Decrease value">-</button>
-                            <input type="text" class="webix_inp_counter_value borderless" aria-live="assertive" value=${obj.amount}>
+                            <input type="text" class="webix_inp_counter_value borderless" aria-live="assertive" value=${amount}>
                             <button type="button" class="webix_inp_counter_next" tabindex="-1" aria-label="Increase value">+</button>`;
 				}
 			},
 			columns: this.getColumns(),
-			data: [
-				{
-					name: "Lenovo K5",
-					price: 380,
-					rating: 68,
-					amount: 0,
-				},
-				{
-					name: "Lenovo K6",
-					price: 410,
-					rating: 69,
-					amount: 0,
-				},
-				{
-					name: "Lenovo S920",
-					price: 370,
-					rating: 85,
-					amount: 0,
-				},
-				{
-					name: "Lenovo Vibe K5",
-					price: 350,
-					rating: 91,
-					amount: 0,
-				},
-			],
 			onClick: {
 				"webix_inp_counter_prev": function(e, col) {
 					self.downAmount(col, this);
@@ -105,13 +81,14 @@ export default class ProductsTable extends JetView {
 		};
 	}
 
-	init() {
+	init(view) {
+	    view.parse(data);
 		this.productWindow = this.ui(productWindow);
 	}
 
 	downAmount(col, self) {
 		let item = self.getItem(col.row);
-		if (item.amount > 0) {
+		if (item.amount > 1) {
 			item.amount--;
 			self.updateItem(col.row, item);
 		}
@@ -119,13 +96,14 @@ export default class ProductsTable extends JetView {
 
 	upAmount(col, self) {
 		let item = self.getItem(col.row);
+        item.amount = this.checkAmount(item.amount);
 		item.amount++;
 		self.updateItem(col.row, item);
 	}
 
 	showWindow(col, self) {
 		if (
-			col.column === "image" || col.column === "name" ||
+			col.column === "image" || col.column === "model" ||
 			col.column === "price" || col.column === "rating"
 		) {
 			let item = self.getItem(col.row);
@@ -135,8 +113,16 @@ export default class ProductsTable extends JetView {
 
 	addToBag(col, self) {
 		let item = self.getItem(col.row);
+		item.amount = this.checkAmount(item.amount);
 		webix.message({
-			text: `${item.amount} ${item.name} has been added to your bag`
+			text: `${item.amount} ${item.model} has been added to your bag`
 		});
 	}
+
+	checkAmount(amount) {
+	    if (isNaN(amount)) {
+	        amount = 1;
+        }
+        return amount;
+    }
 }

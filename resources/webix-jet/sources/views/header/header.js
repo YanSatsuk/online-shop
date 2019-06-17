@@ -31,15 +31,15 @@ export default class HeaderView extends JetView {
 	}
 
 	config() {
-/*		const colsAnonim = [
+		const colsAnonim = [
 			this.getLogo(),
 			{},
 			this.getGreeting(),
 			{},
-			this.getNavLink("/top/login", "Login"),
-			this.getNavLink("/top/register", "Register"),
-			this.getNavLink("/top/bag", "Bag"),
-		];*/
+			this.getNavLink("#!/top/login", "Login"),
+			this.getNavLink("#!/top/register", "Register"),
+			this.getNavLink("#!/top/bag", "Bag"),
+		];
 		const colsLogged = [
 			this.getLogo(),
 			{},
@@ -51,7 +51,7 @@ export default class HeaderView extends JetView {
 		];
 		return {
 			view: "toolbar",
-			cols: colsLogged
+			cols: colsAnonim,
 		};
 	}
 }

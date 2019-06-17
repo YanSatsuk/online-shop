@@ -19,7 +19,7 @@ export default class ProductWindow extends JetView {
 						margin: 20,
 						rows: [
 							{
-								localId: "name",
+								localId: "model",
 								view: "label",
 							},
 							{
@@ -58,7 +58,7 @@ export default class ProductWindow extends JetView {
 	}
 
 	setValues(item) {
-		this.setHead(item.name);
+		this.setHead(item.model);
 		this.setValue(item);
 	}
 
@@ -68,7 +68,7 @@ export default class ProductWindow extends JetView {
 
 	setValue(item) {
 		const labelId = [
-			"name",
+			"model",
 			"price",
 			"rating",
 		];
