@@ -73,7 +73,9 @@ export default class ProductWindow extends JetView {
 			"rating",
 		];
 		labelId.forEach(id => {
-			$$(id).setValue(`${this.capitalizeFirstLetter(id)}: <span class="not-bold">${item[id]}</span>`);
+		    if (this.$$(id)) {
+                this.$$(id).setValue(`${this.capitalizeFirstLetter(id)}: <span class="not-bold">${item[id]}</span>`);
+            }
 		});
 	}
 
