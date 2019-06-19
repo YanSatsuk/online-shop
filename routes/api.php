@@ -31,3 +31,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('getbycategory/{id}', 'ProductController@getByCategoryId');
     Route::get('getbybrand/{id}', 'ProductController@getByBrandId');
 });
+
+Route::group(['prefix' => 'order'], function () {
+    Route::post('make/', 'OrderController@make');
+});
