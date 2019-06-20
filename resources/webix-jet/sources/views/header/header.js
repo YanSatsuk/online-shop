@@ -1,4 +1,5 @@
 import {JetView} from "webix-jet";
+import bagObj from "../../helpers/bag";
 
 export default class HeaderView extends JetView {
 	getLogo() {
@@ -31,6 +32,8 @@ export default class HeaderView extends JetView {
 	}
 
 	config() {
+	    let bag = this.getNavLink("#!/top/bag", "Bag");
+	    bag['id'] = 'bagLabel';
 		const colsAnonim = [
 			this.getLogo(),
 			{},
@@ -38,7 +41,7 @@ export default class HeaderView extends JetView {
 			{},
 			this.getNavLink("#!/top/login", "Login"),
 			this.getNavLink("#!/top/register", "Register"),
-			this.getNavLink("#!/top/bag", "Bag"),
+			bag,
 		];
 		const colsLogged = [
 			this.getLogo(),
@@ -47,11 +50,28 @@ export default class HeaderView extends JetView {
 			{},
 			this.getNavLink("#!/top/logout", "Logout"),
 			this.getNavLink("#!/top/history", "History"),
-			this.getNavLink("#!/top/bag", "Bag"),
+            bag,
 		];
 		return {
 			view: "toolbar",
 			cols: colsAnonim,
 		};
 	}
+
+	init() {
+	    this.attachChangeEvent();
+        $$("bagLabel").callEvent('changeCount', []);
+    }
+
+    attachChangeEvent() {
+        let bag = $$("bagLabel");
+        bag.attachEvent('changeCount', function() {
+            let count = bagObj.getCount();
+            if (count) {
+                bag.setValue(`Bag (${count})`);
+            } else {
+                bag.setValue("Bag");
+            }
+        });
+    }
 }

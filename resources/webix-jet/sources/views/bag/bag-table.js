@@ -1,4 +1,5 @@
 import {JetView} from "webix-jet";
+import bag from "../../helpers/bag";
 
 export default class BagTable extends JetView {
 	getColumns() {
@@ -13,7 +14,7 @@ export default class BagTable extends JetView {
 				}
 			},
 			{
-				id: "name",
+				id: "model",
 				header: "Name",
 				sort: "string",
 				fillspace: true,
@@ -57,7 +58,7 @@ export default class BagTable extends JetView {
             footer: true,
             math: true,
             columns: this.getColumns(),
-            data: [
+/*            data: [
                 {
                     name: "Lenovo K5",
                     amount: 2,
@@ -68,7 +69,7 @@ export default class BagTable extends JetView {
                     amount: 1,
                     price: 370,
                 },
-            ],
+            ],*/
             onClick: {
                 "img-padding": function(e, col) {
                     self.decreaseAmount(col, this);
@@ -77,13 +78,30 @@ export default class BagTable extends JetView {
         };
     }
 
+    init(view) {
+        this.setDataFromStorage(view);
+    }
+
+    setDataFromStorage(view) {
+        let items = bag.get();
+        let data = [];
+        if (Object.keys(items).length) {
+            for (let key in items) {
+                data.push(items[key]);
+            }
+            view.parse(data);
+        }
+    }
+
     decreaseAmount(col, self) {
         let item = self.getItem(col.row);
         if (item.amount > 1) {
             item.amount--;
             self.updateItem(col.row, item);
+            bag.decreaseAmount(col.row);
         } else {
             self.remove(col.row);
+            bag.remove(col.row);
         }
     }
 }

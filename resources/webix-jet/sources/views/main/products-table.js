@@ -1,6 +1,7 @@
 import {JetView} from "webix-jet";
 import productWindow from "../window/product";
 import data from "../../models/product";
+import bag from "../../helpers/bag";
 
 export default class ProductsTable extends JetView {
 	getColumns() {
@@ -117,6 +118,7 @@ export default class ProductsTable extends JetView {
 		webix.message({
 			text: `${item.amount} ${item.model} has been added to your bag`
 		});
+		bag.add(item);
 	}
 
 	checkAmount(amount) {

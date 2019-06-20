@@ -18,5 +18,7 @@ class Order extends Model
         'payment',
         'status',
         'reason',
+        'created_at',
+        'updated_at',
     ];
 }

@@ -33,5 +33,5 @@ Route::group(['prefix' => 'product'], function () {
 });
 
 Route::group(['prefix' => 'order'], function () {
-    Route::post('make/', 'OrderController@make');
+    Route::post('make', 'OrderController@make');
 });

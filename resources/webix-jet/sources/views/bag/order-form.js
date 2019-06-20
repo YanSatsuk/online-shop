@@ -1,4 +1,6 @@
 import {JetView} from "webix-jet";
+import bag from "../../helpers/bag";
+import {getPostPromise} from "../../helpers/requests";
 
 export default class OrderForm extends JetView {
     getElements() {
@@ -29,7 +31,7 @@ export default class OrderForm extends JetView {
                     },
                     {
                         view: "combo",
-                        name: "deliveryType",
+                        name: "delivery",
                         label: "Delivery type",
                         labelWidth: 250,
                         options: ['Courier', 'Pickup'],
@@ -44,7 +46,7 @@ export default class OrderForm extends JetView {
                     },
                     {
                         view: "combo",
-                        name: "paymentType",
+                        name: "payment",
                         label: "Payment type",
                         labelWidth: 250,
                         options: ['Card', 'Cash'],
@@ -71,9 +73,9 @@ export default class OrderForm extends JetView {
                         "name": webix.rules.isNotEmpty,
                         "email": webix.rules.isEmail,
                         "phone": webix.rules.isNotEmpty,
-                        "deliveryType": webix.rules.isNotEmpty,
+                        "delivery": webix.rules.isNotEmpty,
                         "address": webix.rules.isNotEmpty,
-                        "paymentType": webix.rules.isNotEmpty,
+                        "payment": webix.rules.isNotEmpty,
                     },
                     elements: this.getElements(),
                 },
@@ -85,7 +87,13 @@ export default class OrderForm extends JetView {
     makeOrder() {
         let form = this.$$('orderForm');
         if (form && form.validate()) {
-            console.log(form.getValues());
+            let items = bag.get();
+            items['user_data'] = form.getValues();
+            getPostPromise("/api/order/make", items).then((res) => {
+                console.log(res);
+            }).fail((xhr) => {
+                console.log(xhr);
+            })
         }
     }
 }
